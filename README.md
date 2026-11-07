@@ -1,4 +1,4 @@
-# SkillVault — NVIDIA Omniverse Learning Tracker
+# SkillVault â€” NVIDIA Omniverse Learning Tracker
 
 A responsive static application hosted on GitHub Pages, with Supabase password sign-in and owner-only cloud records. No email-link sign-in is used.
 
@@ -39,3 +39,9 @@ Each topic and sub-topic carries a specific path ID. NVIDIA OpenUSD preparation 
 Sub-topic quiz popups select 15 questions from curated domain question banks, ranking related concepts against the selected sub-topic. Related sub-topics share prerequisite questions. These are practice questions, not official exam questions or 3,690 independently authored questions. Stable selection and option ordering preserve per-question answers across reloads. First submitted answers are retained for review. Results do not automatically mark learning complete. Backend reads are paginated for large histories.
 
 The catalog can grow by appending stable IDs, source URLs, path IDs and positive weights totaling 100 per module. Register an appropriate question bank for any new domain rather than assigning unrelated questions. Updating question semantics requires a new answer-key version to prevent stale attempts being reinterpreted.
+
+## Profile, theme and quiz retakes
+
+The top-right Profile menu includes section shortcuts, Data Refresh, Set / Reset Password, Sign Out and the theme switch. Password changes use the signed-in account. Light/dark preference is saved on this browser and applies to the sign-in page, dashboard and dialogs.
+
+Reset Quiz beside the sub-topic statistics clears only that account’s answers for that quiz after confirmation. Other quizzes and learning completion are preserved. Failed resets retain the saved answers.

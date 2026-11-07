@@ -45,10 +45,11 @@ function dashboard(user) {
   currentUser=user;certifications=[];skills=[];learningRows=[];
   $('#auth-view').hidden=true;$('#dashboard').hidden=false;
   $('#greeting-name').textContent=(user.email||'there').split('@')[0]+'.';
-  $('#account-area').innerHTML=`<span>${esc(user.email)}</span><button id="refresh-data" class="text-button">Refresh data</button><button id="set-password" class="text-button">Set password</button><button id="logout" class="text-button">Sign out</button>`;
-  $('#refresh-data').onclick=load;
-  $('#logout').onclick=async()=>{const {error}=await db.auth.signOut({scope:'local'});if(error)$('#workspace-message').textContent='Could not sign out: '+error.message;else authScreen();};
-  $('#set-password').onclick=()=>$('#password-dialog').showModal();
+  $('#account-area').innerHTML=`<details id="profile-menu" class="profile-menu"><summary aria-label="Open profile menu"><span class="profile-avatar">${esc((user.email||'U')[0].toUpperCase())}</span> Profile <span aria-hidden="true">⌄</span></summary><div class="profile-panel"><p class="profile-email">${esc(user.email)}</p><nav aria-label="Profile and workspace"><a href="#topics-heading" data-jump="topics-heading">Learning topics</a><a href="#certification-hub" data-jump="certification-hub">Certification Hub</a><a href="#resource-index-heading" data-jump="resource-index-heading">Resource Index</a><a href="#certifications-heading" data-jump="certifications-heading">Certifications</a></nav><hr><button id="refresh-data">Data Refresh</button><button id="set-password">Set / Reset Password</button><button type="button" data-theme-toggle>Theme Switcher</button><hr><button id="logout">Sign Out</button></div></details>`;
+  window.Theme.refresh();
+  $('#refresh-data').onclick=()=>{closeProfile();load();};
+  $('#logout').onclick=async()=>{closeProfile();const {error}=await db.auth.signOut({scope:'local'});if(error)$('#workspace-message').textContent='Could not sign out: '+error.message;else authScreen();};
+  $('#set-password').onclick=()=>{closeProfile();$('#set-password-form').reset();$('#set-password-message').textContent='';$('#password-dialog').showModal();};
   render();renderLearning();setTimeout(load,0);
   if(workspaceChannel)db.removeChannel(workspaceChannel);
   workspaceChannel=db.channel('private-workspace-'+user.id).on('postgres_changes',{event:'*',schema:'public',table:'certifications',filter:`user_id=eq.${user.id}`},load).on('postgres_changes',{event:'*',schema:'public',table:'skills',filter:`user_id=eq.${user.id}`},load).subscribe(status=>{if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')$('#workspace-message').textContent='Live updates disconnected. Refresh data to retry.';});
@@ -58,7 +59,7 @@ function authScreen() {
   if(workspaceChannel){db.removeChannel(workspaceChannel);workspaceChannel=null;}
   document.querySelectorAll('dialog[open]').forEach(d=>d.close());
   $('#flow-map').replaceChildren();$('#roadmap-detail').replaceChildren();$('#stats').replaceChildren();$('#cert-list').replaceChildren();$('#skill-list').replaceChildren();$('#learning-content').replaceChildren();$('#learning-overview').replaceChildren();
-  $('#auth-view').hidden=false;$('#dashboard').hidden=true;$('#account-area').textContent='Private & synchronized';
+  $('#auth-view').hidden=false;$('#dashboard').hidden=true;$('#account-area').innerHTML='<button class="secondary" type="button" data-theme-toggle>Theme Switcher</button>';window.Theme.refresh();
 }
 $('#password-form').addEventListener('submit', async e=>{e.preventDefault();const msg=$('#password-message'),f=new FormData(e.target);msg.textContent='Signing in…';const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('password')});msg.textContent=error?'Unable to sign in: '+error.message:'Signed in.';});
 $('#create-account').onclick=async()=>{const form=$('#password-form'),msg=$('#password-message'),f=new FormData(form),email=f.get('email'),password=f.get('password');if(!form.reportValidity())return;msg.textContent='Creating your account…';const {data,error}=await db.auth.signUp({email,password});if(error){msg.textContent='Unable to create account: '+error.message;return;}if(data.session){msg.textContent='Account created. Opening your dashboard…';return;}msg.textContent='Your Supabase project still requires email confirmation. In Supabase Dashboard, open Authentication → Providers → Email and turn off Confirm email, then create the account again.';};
@@ -113,3 +114,12 @@ window.addEventListener('online',()=>{if(currentUser)load();});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&currentUser)load();});
 initLearning();
 initialiseAuth();
+
+function closeProfile(restoreFocus=false){const menu=$('#profile-menu');if(menu){menu.open=false;if(restoreFocus)menu.querySelector('summary').focus();}}
+document.addEventListener('click',e=>{
+  const menu=$('#profile-menu');
+  if(menu?.open&&!menu.contains(e.target))closeProfile();
+  const link=e.target.closest('[data-jump]');
+  if(link){e.preventDefault();closeProfile();const heading=document.getElementById(link.dataset.jump);if(heading){heading.focus({preventScroll:true});heading.scrollIntoView({behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#profile-menu')?.open){closeProfile(true);}});
