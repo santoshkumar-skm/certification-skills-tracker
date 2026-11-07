@@ -22,23 +22,17 @@
             <p>Keep certifications, skills, expiry dates, and next steps in one private workspace that follows you across every device.</p>
             <div class="hero-notes"><span>✓ Private by default</span><span>↻ Live sync</span><span>◌ Free to use</span></div>
           </div>
-          <section class="card auth-card" aria-label="Sign in">
+          <section class="card auth-card" aria-label="Account access">
             <p class="eyebrow">WELCOME</p>
             <h2>Start your tracker</h2>
-            <div class="auth-tabs" role="tablist" aria-label="Sign-in method"><button type="button" class="auth-tab active" data-auth-mode="link" role="tab" aria-selected="true">Secure email link</button><button type="button" class="auth-tab" data-auth-mode="password" role="tab" aria-selected="false">Password</button></div>
-            <form id="auth-form">
-            <p class="muted">Enter your email and we’ll send a secure, one-time sign-in link.</p>
-            <label>Email address<input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
-            <button class="primary" type="submit">Send secure sign-in link <span>→</span></button>
-            <p id="auth-message" class="form-message" aria-live="polite"></p>
-            <p class="fine-print">Free but limited to two emails per hour for this project.</p></form>
-            <form id="password-form" hidden>
-              <p class="muted">Use the password you set after a secure-link sign-in.</p>
+            <form id="password-form">
+              <p class="muted">Create a private account once, then sign in with the same email and password on any device.</p>
               <label>Email address<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
               <label>Password<input name="password" type="password" autocomplete="current-password" minlength="8" required /></label>
-              <button class="primary" type="submit">Sign in with password <span>→</span></button>
+              <button class="primary" type="submit">Sign in <span>→</span></button>
+              <button id="create-account" class="secondary auth-secondary" type="button">Create new account</button>
               <p id="password-message" class="form-message" aria-live="polite"></p>
-              <p class="fine-print">New here? Sign in once with a secure email link, then set a password from your dashboard.</p>
+              <p class="fine-print">Password sign-in is free and does not send magic-link emails.</p>
             </form>
           </section>
         </section>
@@ -65,10 +59,10 @@
 
     <dialog id="cert-dialog" class="modal"><form id="cert-form" method="dialog"><div class="modal-heading"><div><p class="eyebrow">NEW CREDENTIAL</p><h2>Add certification</h2></div><button class="icon-button" type="button" data-close="cert-dialog" aria-label="Close">×</button></div><label>Certification name<input name="name" required placeholder="AWS Certified Cloud Practitioner" /></label><label>Issuer<input name="issuer" required placeholder="Amazon Web Services" /></label><div class="form-grid"><label>Issue date<input name="issue_date" type="date" /></label><label>Expiry date<input name="expiry_date" type="date" /></label></div><label>Credential URL <span class="optional">optional</span><input name="credential_url" type="url" placeholder="https://…" /></label><div class="modal-actions"><button class="secondary" type="button" data-close="cert-dialog">Cancel</button><button class="primary" type="submit">Save certification</button></div></form></dialog>
     <dialog id="skill-dialog" class="modal"><form id="skill-form" method="dialog"><div class="modal-heading"><div><p class="eyebrow">NEW SKILL</p><h2>Add a skill</h2></div><button class="icon-button" type="button" data-close="skill-dialog" aria-label="Close">×</button></div><label>Skill name<input name="name" required placeholder="Product strategy" /></label><label>Level<select name="level"><option value="beginner">Beginner</option><option value="intermediate" selected>Intermediate</option><option value="advanced">Advanced</option><option value="expert">Expert</option></select></label><label>Progress <output id="progress-output">60%</output><input id="progress" name="progress" type="range" min="0" max="100" value="60" /></label><div class="modal-actions"><button class="secondary" type="button" data-close="skill-dialog">Cancel</button><button class="primary" type="submit">Save skill</button></div></form></dialog>
-    <dialog id="password-dialog" class="modal"><form id="set-password-form"><div class="modal-heading"><div><p class="eyebrow">ACCOUNT SECURITY</p><h2>Set a password</h2></div><button class="icon-button" type="button" data-close="password-dialog" aria-label="Close">×</button></div><p class="muted">Use this for password sign-in on future visits without requesting an email link.</p><label>New password<input name="password" type="password" autocomplete="new-password" minlength="8" required /></label><label>Confirm password<input name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required /></label><p id="set-password-message" class="form-message" aria-live="polite"></p><div class="modal-actions"><button class="secondary" type="button" data-close="password-dialog">Cancel</button><button class="primary" type="submit">Save password</button></div></form></dialog>
+    <dialog id="password-dialog" class="modal"><form id="set-password-form"><div class="modal-heading"><div><p class="eyebrow">ACCOUNT SECURITY</p><h2>Set a password</h2></div><button class="icon-button" type="button" data-close="password-dialog" aria-label="Close">×</button></div><p class="muted">Use this to update the password for future sign-ins.</p><label>New password<input name="password" type="password" autocomplete="new-password" minlength="8" required /></label><label>Confirm password<input name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required /></label><p id="set-password-message" class="form-message" aria-live="polite"></p><div class="modal-actions"><button class="secondary" type="button" data-close="password-dialog">Cancel</button><button class="primary" type="submit">Save password</button></div></form></dialog>
     <template id="empty-state"><div class="empty-state"><span>✦</span><p>Nothing here yet.</p><small>Add your first item to start building your story.</small></div></template>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
-    <script src="app.js?v=callback-fix-1"></script>
+    <script src="app.js?v=password-only-1"></script>
   </body>
 </html>
