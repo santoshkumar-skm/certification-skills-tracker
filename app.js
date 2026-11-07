@@ -31,4 +31,20 @@ $('#set-password-form').addEventListener('submit',async e=>{e.preventDefault();c
 $('#cert-form').addEventListener('submit',async e=>{e.preventDefault();const f=new FormData(e.target);const {error}=await db.from('certifications').insert({user_id:currentUser.id,name:f.get('name'),issuer:f.get('issuer'),issue_date:f.get('issue_date')||null,expiry_date:f.get('expiry_date')||null,credential_url:f.get('credential_url')||null});if(error)return alert(error.message);e.target.reset();$('#cert-dialog').close();load();});
 $('#skill-form').addEventListener('submit',async e=>{e.preventDefault();const f=new FormData(e.target);const {error}=await db.from('skills').insert({user_id:currentUser.id,name:f.get('name'),level:f.get('level'),progress:+f.get('progress')});if(error)return alert(error.message);e.target.reset();$('#skill-dialog').close();load();});
 document.addEventListener('click',async e=>{const c=e.target.dataset.deleteCert,s=e.target.dataset.deleteSkill;if(c&&confirm('Delete this certification?')) await db.from('certifications').delete().eq('id',c);if(s&&confirm('Delete this skill?')) await db.from('skills').delete().eq('id',s);});
-(async()=>{if(!ready){authScreen();$('#auth-message').textContent='Preview mode: connect Supabase to enable secure login and sync.';return;}const {data:{session}}=await db.auth.getSession();session?dashboard(session.user):authScreen();db.auth.onAuthStateChange((_e,session)=>session?dashboard(session.user):authScreen());})();
+async function initialiseAuth() {
+  if (!ready) { authScreen(); $('#auth-message').textContent='Preview mode: connect Supabase to enable secure login and sync.'; return; }
+  const query = new URLSearchParams(window.location.search);
+  const callbackError = new URLSearchParams(window.location.hash.slice(1)).get('error_description') || query.get('error_description');
+  if (callbackError) { authScreen(); $('#auth-message').textContent='Sign-in link could not be completed: '+callbackError; return; }
+  const code = query.get('code');
+  if (code) {
+    const { error } = await db.auth.exchangeCodeForSession(code);
+    if (error) { authScreen(); $('#auth-message').textContent='Sign-in link could not be completed: '+error.message; return; }
+    history.replaceState({}, document.title, window.location.pathname);
+  }
+  const { data: { session }, error } = await db.auth.getSession();
+  if (error) { authScreen(); $('#auth-message').textContent='Unable to restore your sign-in: '+error.message; return; }
+  session ? dashboard(session.user) : authScreen();
+  db.auth.onAuthStateChange((_event, nextSession)=>nextSession ? dashboard(nextSession.user) : authScreen());
+}
+initialiseAuth();
