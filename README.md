@@ -4,7 +4,7 @@ A responsive static application hosted on GitHub Pages, with Supabase password s
 
 ## Learning plan
 
-The proposed plan for review contains 5 ordered tracks, 30 study modules, 90 topics, 26 planned weeks, and a 390-hour study target. These modules are study goals, not claimed official course titles or earned credentials. Each module offers topic checkboxes, a recommended preceding module, and an official NVIDIA learning resource. Separate views show weekly planning, practical projects, progress, and study history. Weeks indicate suggested starting weeks; practice can continue across weeks.
+The user-specified five-phase plan contains 5 ordered tracks, 30 study modules, 120 weighted sub-topics, 26 planned weeks (personal study allocations), and a 390-hour study target. The sequence follows the supplied course titles. Provider resources are linked per sub-topic. Supporting resources are labeled where an exact session link is unconfirmed. Practice quizzes are locally authored study aids, not official exam questions. Each module offers topic checkboxes, a recommended preceding module, and an official NVIDIA learning resource. Separate views show weekly planning, practical projects, progress, and study history. Weeks indicate suggested starting weeks; practice can continue across weeks.
 
 Existing credentials and manually added skills remain available, with edit and delete controls. Only credentials entered by the user appear as earned certifications.
 
@@ -27,3 +27,5 @@ To work with the deployed schema without a privileged database migration, roadma
 ## Validation
 
 Run `node --test tests/workspace.test.cjs` and `node --check app.js` (also check `learning.js` and `roadmap.js`). Tests exercise session restoration and refresh events, roadmap views and totals, saved progress across reloads, account isolation, study totals, sign-out cleanup, sync/write errors, existing skill updates, and safe credential URLs using a simulated database and DOM. These do not substitute for a real signed-in browser test of production authentication and cross-device delivery.
+
+The floating roadmap uses orange for started/current, green for complete, and grey for pending modules. Quiz scores sync separately from weighted topic completion. Resource HTTP checks are recorded in resource-verification.json; HTTP availability does not verify enrollment eligibility. Version 2 course IDs intentionally do not reuse completion flags from the earlier proposed syllabus. Earlier records remain stored.

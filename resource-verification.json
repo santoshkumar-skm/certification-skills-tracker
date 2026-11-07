@@ -1,0 +1,270 @@
+{
+  "checked": "2026-11-07",
+  "results": [
+    {
+      "url": "https://academy.claude.com/courses/claude-101",
+      "status": 200,
+      "final": "https://academy.claude.com/courses/claude-101"
+    },
+    {
+      "url": "https://anthropic.skilljar.com/ai-fluency-framework-foundations",
+      "status": 200,
+      "final": "https://anthropic.skilljar.com/ai-fluency-framework-foundations"
+    },
+    {
+      "url": "https://anthropic.skilljar.com/claude-code-in-action",
+      "status": 200,
+      "final": "https://anthropic.skilljar.com/claude-code-in-action"
+    },
+    {
+      "url": "https://anthropic.skilljar.com/teaching-ai-fluency",
+      "status": 200,
+      "final": "https://anthropic.skilljar.com/teaching-ai-fluency"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html",
+      "status": 200,
+      "final": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html"
+    },
+    {
+      "url": "https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_advanced_cloud_setup_aws.html",
+      "status": 200,
+      "final": "https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_advanced_cloud_setup_aws.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/asset-parameterization/what-is-asset-parameterization.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/asset-parameterization/what-is-asset-parameterization.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/asset-structure-principles/asset-interface-pt1.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/asset-structure-principles/asset-interface-pt1.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/index.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/index.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/model-hierarchy/exercise-components.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/model-hierarchy/exercise-components.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/model-hierarchy/what-are-model-kinds.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/model-hierarchy/what-are-model-kinds.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/reference-payload-pattern/what-is-ref-payload-pattern.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/reference-payload-pattern/what-is-ref-payload-pattern.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/workstreams/modeling-workstreams.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/asset-structure/workstreams/modeling-workstreams.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/active-inactive-prims.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/active-inactive-prims.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/model-kinds.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/model-kinds.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/stage-traversal.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/stage-traversal.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/value-resolution.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/beyond-basics/value-resolution.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/composition-basics/layers.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/composition-basics/layers.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/composition-basics/strength-ordering.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/composition-basics/strength-ordering.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/index.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/index.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/references-payloads/working-with-payloads.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/references-payloads/working-with-payloads.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/references-payloads/working-with-references.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/references-payloads/working-with-references.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/strength-ordering/tracing-through-liverps.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/strength-ordering/tracing-through-liverps.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/strength-ordering/what-is-liverps.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/strength-ordering/what-is-liverps.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/sublayers/working-with-sublayers.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/sublayers/working-with-sublayers.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/variant-sets/working-with-variant-sets.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/creating-composition-arcs/variant-sets/working-with-variant-sets.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/asset-validation/exercise-asset-validation-testing.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/asset-validation/exercise-asset-validation-testing.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/data-exchange/what-is-data-exchange.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/data-exchange/what-is-data-exchange.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/data-extraction/exercise-extracting-materials.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/data-extraction/exercise-extracting-materials.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/data-transformation/what-is-data-transformation.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/data-transformation/what-is-data-transformation.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/index.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/data-exchange/index.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/scene-description-blueprints/schemas.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/scene-description-blueprints/schemas.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/scene-description-blueprints/xform.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/scene-description-blueprints/xform.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/index.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/index.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/prim-property-paths.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/prim-property-paths.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/prims.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/prims.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/properties/attributes.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/properties/attributes.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/properties/relationships.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/properties/relationships.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/stage.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/stage.html"
+    },
+    {
+      "url": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/timecodes-timesamples.html",
+      "status": 200,
+      "final": "https://docs.nvidia.com/learn-openusd/latest/stage-setting/timecodes-timesamples.html"
+    },
+    {
+      "url": "https://github.com/aws-samples/sample-the-physical-ai-toolchain-on-aws",
+      "status": 200,
+      "final": "https://github.com/aws-samples/sample-the-physical-ai-toolchain-on-aws"
+    },
+    {
+      "url": "https://robocademy.com/courses/getting-started-with-modern-robotics-and-ai-68fd2b610328536ff4cc55fd",
+      "status": 200,
+      "final": "https://robocademy.com/courses/getting-started-with-modern-robotics-and-ai-68fd2b610328536ff4cc55fd"
+    },
+    {
+      "url": "https://skillbuilder.aws/learning-plan/7SYE2PF4JQ/diving-deep-on-physical-ai/4MWBGV6R21",
+      "status": 200,
+      "final": "https://skillbuilder.aws/learning-plan/7SYE2PF4JQ/diving-deep-on-physical-ai/4MWBGV6R21"
+    },
+    {
+      "url": "https://www.coursera.org/learn/gen-ai-revolutionizing-the-product-owner-role",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/gen-ai-revolutionizing-the-product-owner-role"
+    },
+    {
+      "url": "https://www.coursera.org/learn/generative-ai-introduction-and-applications",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/generative-ai-introduction-and-applications"
+    },
+    {
+      "url": "https://www.coursera.org/learn/generative-ai-prompt-engineering-for-everyone",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/generative-ai-prompt-engineering-for-everyone"
+    },
+    {
+      "url": "https://www.coursera.org/learn/google-design-prompts-for-everyday-work-tasks",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/google-design-prompts-for-everyday-work-tasks"
+    },
+    {
+      "url": "https://www.coursera.org/learn/google-start-writing-prompts-like-a-pro",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/google-start-writing-prompts-like-a-pro"
+    },
+    {
+      "url": "https://www.coursera.org/learn/introduction-to-software-product-management",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/introduction-to-software-product-management"
+    },
+    {
+      "url": "https://www.coursera.org/learn/introduction-virtual-reality",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/introduction-virtual-reality"
+    },
+    {
+      "url": "https://www.coursera.org/learn/vibe-coding-fundamentals",
+      "status": 200,
+      "final": "https://www.coursera.org/learn/vibe-coding-fundamentals"
+    },
+    {
+      "url": "https://www.deeplearning.ai/courses/vibe-coding-101-with-replit",
+      "status": 200,
+      "final": "https://www.deeplearning.ai/courses/vibe-coding-101-with-replit"
+    },
+    {
+      "url": "https://www.nvidia.com/en-us/learn/certification/openusd-development-professional/",
+      "status": 200,
+      "final": "https://www.nvidia.com/en-us/learn/certification/openusd-development-professional/"
+    }
+  ]
+}

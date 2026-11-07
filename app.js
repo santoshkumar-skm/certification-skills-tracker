@@ -47,7 +47,7 @@ function authScreen() {
   currentUser=null;editingCert=null;editingSkill=null;showAllCerts=false;++loadVersion;certifications=[];skills=[];learningRows=[];
   if(workspaceChannel){db.removeChannel(workspaceChannel);workspaceChannel=null;}
   document.querySelectorAll('dialog[open]').forEach(d=>d.close());
-  $('#stats').replaceChildren();$('#cert-list').replaceChildren();$('#skill-list').replaceChildren();$('#learning-content').replaceChildren();$('#learning-overview').replaceChildren();
+  $('#flow-map').replaceChildren();$('#roadmap-detail').replaceChildren();$('#stats').replaceChildren();$('#cert-list').replaceChildren();$('#skill-list').replaceChildren();$('#learning-content').replaceChildren();$('#learning-overview').replaceChildren();
   $('#auth-view').hidden=false;$('#dashboard').hidden=true;$('#account-area').textContent='Private & synchronized';
 }
 $('#password-form').addEventListener('submit', async e=>{e.preventDefault();const msg=$('#password-message'),f=new FormData(e.target);msg.textContent='Signing in…';const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('password')});msg.textContent=error?'Unable to sign in: '+error.message:'Signed in.';});
