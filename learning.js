@@ -2,31 +2,33 @@
 let learningRows = [], learningView = 'courses', learningBusy = false;
 const learningKey = (course, topic) => `@sv1/topic/${course}/${topic}`;
 const topicDone = (course, topic) => learningRows.some(r=>r.name===learningKey(course,topic)&&r.progress===100);
-const courseProgress = c => c.submodules.reduce((sum,t,i)=>sum+(topicDone(c.id,i)?t.weight:0),0);
+const courseProgress = c => c.submodules.reduce((sum,t,i)=>sum+(topicDone(c.id,t.id??i)?t.weight:0),0);
 const studyLogs = () => learningRows.filter(r=>r.name.startsWith('@sv1/log/')).map(r=>{const [, , course,date,minutes]=r.name.split('/');return {...r,course,date,minutes:Number(minutes)};});
 const learnedHours = () => studyLogs().reduce((n,r)=>n+r.minutes,0)/60;
 const localDate = () => {const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 function courseCard(c) {
   const p=courseProgress(c),index=ROADMAP.indexOf(c);
-  return `<article class="course-card"><small>${String(index+1).padStart(2,'0')} · ${esc(c.track)} · Week ${c.week}</small><h3>${esc(c.title)}</h3><p>${p}% complete · ${c.hours}h target${c.project?' · Practical project':''}</p><div class="meter"><span style="width:${p}%"></span></div><button class="text-button" data-roadmap="${c.id}">View roadmap &amp; update topics →</button></article>`;
+  return `<article class="course-card"><small>${String(index+1).padStart(2,'0')} · ${esc(c.pathTitle)} · Week ${c.week}</small><h3>${esc(c.title)}</h3><small>${esc(c.pathType)}</small><p>${p}% complete · ${c.hours}h target${c.project?' · Practical project':''}</p><div class="meter"><span style="width:${p}%"></span></div><button class="text-button" data-roadmap="${c.id}">View roadmap &amp; update topics →</button></article>`;
 }
 function renderLearning() {
   if(typeof renderEnhancements==='function')renderEnhancements();
   const completed=ROADMAP.filter(c=>courseProgress(c)===100).length;
   const percent=Math.round(ROADMAP.reduce((n,c)=>n+courseProgress(c),0)/ROADMAP.length);
-  $('#learning-overview').innerHTML=`<article class="card stat"><p>LEARNING PROGRESS</p><strong>${percent}%</strong><small>${completed} / 30 modules completed</small></article><article class="card stat"><p>STUDY HOURS</p><strong>${learnedHours().toFixed(1)} / 390</strong><small>26 weeks · 15 hours per week</small></article><article class="card stat"><p>NEXT IN YOUR PLAN</p><strong class="next-module">${esc((ROADMAP.find(c=>courseProgress(c)<100)||{title:'All modules complete'}).title)}</strong></article>`;
+  $('#learning-overview').innerHTML=`<article class="card stat"><p>LEARNING PROGRESS</p><strong>${percent}%</strong><small>${completed} / ${ROADMAP.length} modules completed</small></article><article class="card stat"><p>STUDY HOURS</p><strong>${learnedHours().toFixed(1)} / ${ROADMAP.reduce((n,c)=>n+c.hours,0)}</strong><small>${Math.max(...ROADMAP.map(c=>c.week))} planned weeks</small></article><article class="card stat"><p>NEXT IN YOUR PLAN</p><strong class="next-module">${esc((ROADMAP.find(c=>courseProgress(c)<100)||{title:'All modules complete'}).title)}</strong></article>`;
   const filter=$('#track-filter').value;
-  const courses=ROADMAP.filter(c=>filter==='all'||String(c.trackIndex)===filter);
+  const query=($('#topic-search').value||'').toLowerCase(),status=$('#topic-status').value||'all';
+  const courses=ROADMAP.filter(c=>(filter==='all'||c.pathId===filter)&&[c.title,c.pathTitle,...c.topics].join(' ').toLowerCase().includes(query)&&(status==='all'||(status==='complete'?courseProgress(c)===100:status==='current'?courseProgress(c)>0&&courseProgress(c)<100:courseProgress(c)===0)));
+  $('#catalog-summary').textContent=`${ROADMAP.length} topics · ${ROADMAP.reduce((n,c)=>n+c.submodules.length,0)} sub-topics · ${new Set(ROADMAP.map(c=>c.pathId)).size} specific paths`;
   document.querySelectorAll('[data-learning-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.learningView===learningView)));
   if(learningView==='courses') $('#learning-content').innerHTML=courses.map(courseCard).join('');
   if(learningView==='projects') $('#learning-content').innerHTML=courses.filter(c=>c.project).map(courseCard).join('');
-  if(learningView==='calendar') $('#learning-content').innerHTML=Array.from({length:26},(_,i)=>{const week=i+1, assigned=courses.filter(c=>c.week===week);return `<article class="course-card"><h3>Week ${week}</h3><p>15h study target</p>${assigned.length?assigned.map(c=>`<button class="text-button" data-roadmap="${c.id}">${esc(c.title)} (${courseProgress(c)}%)</button>`).join('<br>'):'<p class="muted">Continue the preceding modules, practice, and review.</p>'}</article>`;}).join('');
+  if(learningView==='calendar') $('#learning-content').innerHTML=Array.from({length:Math.max(...ROADMAP.map(c=>c.week))},(_,i)=>{const week=i+1, assigned=courses.filter(c=>c.week===week);return `<article class="course-card"><h3>Week ${week}</h3><p>15h study target</p>${assigned.length?assigned.map(c=>`<button class="text-button" data-roadmap="${c.id}">${esc(c.title)} (${courseProgress(c)}%)</button>`).join('<br>'):'<p class="muted">Continue the preceding modules, practice, and review.</p>'}</article>`;}).join('');
   if(learningView==='analytics') $('#learning-content').innerHTML=`<div class="analytics-summary"><h3>Progress by track</h3>${[...new Set(ROADMAP.map(c=>c.track))].map((t,i)=>{const group=ROADMAP.filter(c=>c.trackIndex===i),p=Math.round(group.reduce((n,c)=>n+courseProgress(c),0)/group.length);return `<p>${esc(t)}: ${p}%</p><div class="meter"><span style="width:${p}%"></span></div>`;}).join('')}<h3>Study history</h3>${studyLogs().length?studyLogs().sort((a,b)=>b.date.localeCompare(a.date)).map(r=>`<p>${esc(r.date)} · ${esc(ROADMAP.find(c=>c.id===r.course)?.title||r.course)} · ${r.minutes} min <button class="text-button" data-delete-log="${esc(r.id)}">Remove</button></p>`).join(''):'<p>No study time logged yet. Use “Log study time” to begin.</p>'}</div>`;
 }
 function showRoadmap(id) {
   const c=ROADMAP.find(c=>c.id===id);if(!c)return;
   const index=ROADMAP.indexOf(c), previous=ROADMAP[index-1];
-  $('#roadmap-detail').innerHTML=`<p class="eyebrow">MODULE ${index+1} · WEEK ${c.week}</p><h2>${esc(c.title)}</h2><p>${esc(c.track)} · ${c.hours} hours target</p><p>${previous?`Recommended preparation: ${esc(previous.title)}`:'Start here: no earlier module required.'}</p><h3>Learning steps</h3>${c.topics.map((t,i)=>`<label class="topic-check"><input type="checkbox" data-topic-course="${c.id}" data-topic-index="${i}" ${topicDone(c.id,i)?'checked':''}>${i+1}. ${esc(t)} · ${c.submodules[i].weight}%</label><p><a href="${esc(c.submodules[i].url)}" target="_blank" rel="noopener noreferrer">Read this sub-topic ↗</a></p>`).join('')}<p><a href="${c.url}" target="_blank" rel="noopener noreferrer">Open official learning resource ↗</a></p>${c.id==='v2m10'?'<p><a href="https://www.nvidia.com/en-gb/learn/certification/openusd-development-professional/" target="_blank" rel="noopener noreferrer">Official OpenUSD certification objectives and exam details ↗</a></p>':''}<p class="muted">Mark a topic complete after practice. Completing this module does not award a credential.</p><p id="topic-message" role="status"></p>`;
+  $('#roadmap-detail').innerHTML=`<p class="eyebrow">MODULE ${index+1} · WEEK ${c.week}</p><h2>${esc(c.title)}</h2><p>${esc(c.pathTitle)} · ${c.hours} hours target</p><p>${previous?`Recommended preparation: ${esc(previous.title)}`:'Start here: no earlier module required.'}</p><div class="steps-heading"><h3>Learning steps</h3><details class="inline-hint"><summary aria-label="About learning completion">ⓘ</summary><span role="note">Mark a topic complete after practice. Completing this module does not award a credential.</span></details></div>${c.submodules.map((t,i)=>`<div class="subtopic-row"><input type="checkbox" aria-label="Mark ${esc(t.title)} complete" data-topic-course="${c.id}" data-topic-index="${t.id??i}" ${topicDone(c.id,t.id??i)?'checked':''}><a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">${esc(t.title)} ↗</a><span class="subtopic-weight">${t.weight}%</span><button type="button" class="quiz-icon" data-subquiz="${c.id}" data-subid="${t.id??i}" aria-label="Quiz for ${esc(t.title)}" title="15-question practice quiz">?</button></div>`).join('')}<p><a href="${c.url}" target="_blank" rel="noopener noreferrer">Open official learning resource ↗</a></p>${c.id==='v2m10'?'<p><a href="https://www.nvidia.com/en-gb/learn/certification/openusd-development-professional/" target="_blank" rel="noopener noreferrer">Official OpenUSD certification objectives and exam details ↗</a></p>':''}<p id="topic-message" role="status"></p>`;
   $('#roadmap-detail').innerHTML+=moduleAssessment(c);
   if(!$('#roadmap-dialog').open)$('#roadmap-dialog').showModal();
 }
@@ -44,8 +46,8 @@ async function saveLearning(name,progress) {
   learningRows=learningRows.filter(r=>r.id!==id).concat(row);renderLearning();
 }
 function initLearning() {
-  $('#track-filter').innerHTML+=[...new Set(ROADMAP.map(c=>c.track))].map((t,i)=>`<option value="${i}">${i+1}. ${esc(t)}</option>`).join('');
-  $('#track-filter').onchange=renderLearning;
+  $('#track-filter').innerHTML+=[...new Map(ROADMAP.map(c=>[c.pathId,c.pathTitle]))].map(([id,title])=>`<option value="${id}">${esc(title)}</option>`).join('');
+  $('#track-filter').onchange=renderLearning;$('#topic-search').oninput=renderLearning;$('#topic-status').onchange=renderLearning;
   $('#study-course').innerHTML=ROADMAP.map(c=>`<option value="${c.id}">${esc(c.title)}</option>`).join('');
   $('#log-study').onclick=()=>{$('#study-date').value=localDate();$('#study-date').max=localDate();$('#study-message').textContent='';$('#study-dialog').showModal();};
   document.addEventListener('click',async e=>{

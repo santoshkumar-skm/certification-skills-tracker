@@ -29,3 +29,13 @@ To work with the deployed schema without a privileged database migration, roadma
 Run `node --test tests/workspace.test.cjs` and `node --check app.js` (also check `learning.js` and `roadmap.js`). Tests exercise session restoration and refresh events, roadmap views and totals, saved progress across reloads, account isolation, study totals, sign-out cleanup, sync/write errors, existing skill updates, and safe credential URLs using a simulated database and DOM. These do not substitute for a real signed-in browser test of production authentication and cross-device delivery.
 
 The floating roadmap uses orange for started/current, green for complete, and grey for pending modules. Quiz scores sync separately from weighted topic completion. Resource HTTP checks are recorded in resource-verification.json; HTTP availability does not verify enrollment eligibility. Version 2 course IDs intentionally do not reuse completion flags from the earlier proposed syllabus. Earlier records remain stored.
+
+## Expandable catalog and assessments
+
+There is no fixed module cap. Counts, totals, scheduling and roadmap arrows derive from the catalog. The current expansion has 38 main topics and 246 sub-topics, including the linked OpenUSD lesson outline. This is a maintained study catalog, not a claim to exhaust every evolving provider syllabus.
+
+Each topic and sub-topic carries a specific path ID. NVIDIA OpenUSD preparation maps to NCP-OUSD; the other existing courses map to their named course paths, not an invented professional certification. Existing IDs and completion records remain intact.
+
+Sub-topic quiz popups select 15 questions from curated domain question banks, ranking related concepts against the selected sub-topic. Related sub-topics share prerequisite questions. These are practice questions, not official exam questions or 3,690 independently authored questions. Stable selection and option ordering preserve per-question answers across reloads. First submitted answers are retained for review. Results do not automatically mark learning complete. Backend reads are paginated for large histories.
+
+The catalog can grow by appending stable IDs, source URLs, path IDs and positive weights totaling 100 per module. Register an appropriate question bank for any new domain rather than assigning unrelated questions. Updating question semantics requires a new answer-key version to prevent stale attempts being reinterpreted.

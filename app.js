@@ -18,12 +18,22 @@ function render() {
   const cl = $('#cert-list'); if (!certifications.length) empty(cl); else cl.innerHTML = (showAllCerts?certifications:certifications.slice(0,5)).map(c=>{const [label,cn]=expiry(c);return `<div class="cert-item"><span class="cert-icon">✦</span><div class="cert-info"><strong>${esc(c.name)}</strong><small>${esc(c.issuer)}${c.expiry_date ? ` · ${esc(c.expiry_date)}` : ''}</small>${safeLink(c.credential_url)?`<a href="${safeLink(c.credential_url)}" target="_blank" rel="noopener noreferrer">View credential ↗</a>`:''}</div><span class="badge ${cn}">${label}</span><button class="text-button" data-edit-cert="${c.id}">Edit</button><button class="delete" data-delete-cert="${c.id}" aria-label="Delete ${esc(c.name)}">×</button></div>`}).join('');
   const sl = $('#skill-list'); if (!skills.length) empty(sl); else sl.innerHTML=skills.map(s=>`<div class="skill-row"><div><strong>${esc(s.name)}</strong><small> · ${esc(s.level)} · ${Number(s.progress)||0}%</small></div><div><button class="text-button" data-edit-skill="${s.id}">Edit</button><button class="delete" data-delete-skill="${s.id}" aria-label="Delete ${esc(s.name)}">×</button></div><div class="meter"><span style="width:${Number(s.progress)||0}%"></span></div></div>`).join('');
 }
+async function readAllRows(table,userId) {
+  const rows=[];
+  for(let offset=0;;offset+=500){
+    const result=await db.from(table).select('*').eq('user_id',userId).order('created_at',{ascending:false}).order('id',{ascending:true}).range(offset,offset+499);
+    if(result.error)return result;
+    rows.push(...(result.data||[]));
+    if((result.data||[]).length<500)return {data:rows,error:null};
+    if(currentUser?.id!==userId)return {data:[],error:null};
+  }
+}
 async function load() {
   if(!currentUser)return;
   const userId=currentUser.id,version=++loadVersion;
   $('#workspace-message').textContent='Synchronizing your workspace…';
   try {
-    const [c,s]=await Promise.all([db.from('certifications').select('*').eq('user_id',userId).order('created_at',{ascending:false}),db.from('skills').select('*').eq('user_id',userId).order('created_at',{ascending:false})]);
+    const [c,s]=await Promise.all([readAllRows('certifications',userId),readAllRows('skills',userId)]);
     if(currentUser?.id!==userId||version!==loadVersion)return;
     if(c.error||s.error)throw c.error||s.error;
     certifications=c.data||[]; learningRows=(s.data||[]).filter(r=>r.name.startsWith('@sv1/'));skills=(s.data||[]).filter(r=>!r.name.startsWith('@sv1/'));
@@ -44,7 +54,7 @@ function dashboard(user) {
   workspaceChannel=db.channel('private-workspace-'+user.id).on('postgres_changes',{event:'*',schema:'public',table:'certifications',filter:`user_id=eq.${user.id}`},load).on('postgres_changes',{event:'*',schema:'public',table:'skills',filter:`user_id=eq.${user.id}`},load).subscribe(status=>{if(status==='CHANNEL_ERROR'||status==='TIMED_OUT')$('#workspace-message').textContent='Live updates disconnected. Refresh data to retry.';});
 }
 function authScreen() {
-  currentUser=null;editingCert=null;editingSkill=null;showAllCerts=false;++loadVersion;certifications=[];skills=[];learningRows=[];
+  currentUser=null;activeQuiz=null;$('#subquiz-content').replaceChildren();editingCert=null;editingSkill=null;showAllCerts=false;++loadVersion;certifications=[];skills=[];learningRows=[];
   if(workspaceChannel){db.removeChannel(workspaceChannel);workspaceChannel=null;}
   document.querySelectorAll('dialog[open]').forEach(d=>d.close());
   $('#flow-map').replaceChildren();$('#roadmap-detail').replaceChildren();$('#stats').replaceChildren();$('#cert-list').replaceChildren();$('#skill-list').replaceChildren();$('#learning-content').replaceChildren();$('#learning-overview').replaceChildren();
