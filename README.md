@@ -1,20 +1,29 @@
-# SkillVault — Certification & Skills Tracker
+# SkillVault — NVIDIA Omniverse Learning Tracker
 
-A responsive, privacy-first certification and skills tracker. It is a static website for **GitHub Pages** and uses **Supabase Free** for passwordless sign-in and live, cross-device data sync.
+A responsive static application hosted on GitHub Pages, with Supabase password sign-in and owner-only cloud records. No email-link sign-in is used.
 
-## Publish in about 10 minutes
+## Learning plan
 
-1. Create a free Supabase project. In **Authentication → URL Configuration**, set the Site URL to `https://YOUR_GITHUB_USERNAME.github.io/certification-skills-tracker/` and add the same URL as a Redirect URL.
-2. In **SQL Editor**, run the complete contents of `supabase-schema.sql`.
-3. Copy your Project URL and **anon public** key from **Project Settings → API** into `config.js`. Do not use or publish the `service_role` key.
-4. Create a GitHub repository named `certification-skills-tracker`, upload these files, and push to `main`.
-5. In GitHub, open **Settings → Pages**, select **GitHub Actions** as the source. The included workflow deploys the site.
+The proposed plan for review contains 5 ordered tracks, 30 study modules, 90 topics, 26 planned weeks, and a 390-hour study target. These modules are study goals, not claimed official course titles or earned credentials. Each module offers topic checkboxes, a recommended preceding module, and an official NVIDIA learning resource. Separate views show weekly planning, practical projects, progress, and study history. Weeks indicate suggested starting weeks; practice can continue across weeks.
 
-Your verified URL will appear in the GitHub Actions deployment summary as `https://YOUR_GITHUB_USERNAME.github.io/certification-skills-tracker/`.
+Existing credentials and manually added skills remain available, with edit and delete controls. Only credentials entered by the user appear as earned certifications.
 
-## Security model
+## Authentication and synchronization
 
-- Sign-in uses Supabase magic links; no passwords are stored by this app.
-- Supabase Row Level Security restricts every certification and skill to its owner.
-- The browser uses only the public anon key. The privileged service-role key is never included.
-- Real-time updates are enabled for both data tables, so open sessions update after changes on another device.
+- Supabase persists the session in this browser and refreshes its tokens. Closing and reopening the browser normally retains sign-in. Clearing browser storage, private browsing, or a server-side session revocation can require another sign-in.
+- Sign out revokes this device's session and clears its displayed private data. Other devices remain signed in.
+- In Supabase Authentication, enable the Email provider and account signup, and disable Confirm email for the requested email-free password signup flow.
+- Run `supabase-schema.sql` once when setting up a new database. Existing deployments need no migration for this roadmap update.
+- Owner-only Row Level Security applies to both tables. Realtime subscriptions refresh changes from other devices. Refresh data, returning to the page, and reconnecting also fetch current records.
+
+## Data compatibility
+
+To work with the deployed schema without a privileged database migration, roadmap progress and study entries use reserved `@sv1/` names in the existing `skills` table. Normal skills are displayed separately. Topic IDs are deterministic per account and topic, so repeated updates do not create duplicates. Study entries have independent IDs and store module, date, and minutes in their reserved names. Their lengths remain within the existing 100-character constraint. These records use the same owner-only policies and realtime publication as manual skills.
+
+## Configuration and deployment
+
+`config.js` contains only the Supabase URL and public publishable key; never include a service-role key. The established repository publishes `main` to GitHub Pages. The included workflow also supports deployments through GitHub Actions when configured as the Pages source.
+
+## Validation
+
+Run `node --test tests/workspace.test.cjs` and `node --check app.js` (also check `learning.js` and `roadmap.js`). Tests exercise session restoration and refresh events, roadmap views and totals, saved progress across reloads, account isolation, study totals, sign-out cleanup, sync/write errors, existing skill updates, and safe credential URLs using a simulated database and DOM. These do not substitute for a real signed-in browser test of production authentication and cross-device delivery.
