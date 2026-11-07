@@ -5,7 +5,7 @@ const ready = cfg.supabaseUrl && cfg.supabaseAnonKey && !cfg.supabaseUrl.include
 // Supabase returns the session in the URL fragment, which the browser client
 // can persist without a server-side callback route.
 const db = ready ? supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
-  auth: { flowType: 'implicit', detectSessionInUrl: true, persistSession: true }
+  auth: { detectSessionInUrl: false, persistSession: true, autoRefreshToken: true }
 }) : null;
 let currentUser = null, certifications = [], skills = [];
 const $ = s => document.querySelector(s);
@@ -32,17 +32,8 @@ $('#skill-form').addEventListener('submit',async e=>{e.preventDefault();const f=
 document.addEventListener('click',async e=>{const c=e.target.dataset.deleteCert,s=e.target.dataset.deleteSkill;if(c&&confirm('Delete this certification?')) await db.from('certifications').delete().eq('id',c);if(s&&confirm('Delete this skill?')) await db.from('skills').delete().eq('id',s);});
 async function initialiseAuth() {
   if (!ready) { authScreen(); $('#auth-message').textContent='Preview mode: connect Supabase to enable secure login and sync.'; return; }
-  const query = new URLSearchParams(window.location.search);
-  const callbackError = new URLSearchParams(window.location.hash.slice(1)).get('error_description') || query.get('error_description');
-  if (callbackError) { authScreen(); $('#auth-message').textContent='Sign-in link could not be completed: '+callbackError; return; }
-  const code = query.get('code');
-  if (code) {
-    const { error } = await db.auth.exchangeCodeForSession(code);
-    if (error) { authScreen(); $('#auth-message').textContent='Sign-in link could not be completed: '+error.message; return; }
-    history.replaceState({}, document.title, window.location.pathname);
-  }
   const { data: { session }, error } = await db.auth.getSession();
-  if (error) { authScreen(); $('#auth-message').textContent='Unable to restore your sign-in: '+error.message; return; }
+  if (error) { authScreen(); $('#password-message').textContent='Unable to restore your sign-in: '+error.message; return; }
   session ? dashboard(session.user) : authScreen();
   db.auth.onAuthStateChange((_event, nextSession)=>nextSession ? dashboard(nextSession.user) : authScreen());
 }
