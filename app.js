@@ -1,7 +1,12 @@
 /* global supabase */
 const cfg = window.APP_CONFIG || {};
 const ready = cfg.supabaseUrl && cfg.supabaseAnonKey && !cfg.supabaseUrl.includes('YOUR_');
-const db = ready ? supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey) : null;
+// GitHub Pages is a client-only site. Explicitly use the implicit flow so
+// Supabase returns the session in the URL fragment, which the browser client
+// can persist without a server-side callback route.
+const db = ready ? supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
+  auth: { flowType: 'implicit', detectSessionInUrl: true, persistSession: true }
+}) : null;
 let currentUser = null, certifications = [], skills = [];
 const $ = s => document.querySelector(s);
 const esc = s => String(s || '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
